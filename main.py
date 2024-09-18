@@ -10,16 +10,16 @@ data: dict[str, list] = {"Name": [["Date", "price"]], "LOQ_R7_8845HS_4050": []}
 
 
 def checkPrice():
-    if data["LOQ_R7_8845HS_4050"][0][0] == datetime.today().strftime('%Y-%m-%d'):
-        driver = webdriver.Chrome()
-        for name in links:
-            if name not in data:
-                data[name] = []
-            driver.get(links[name])
-            price = driver.find_element(By.XPATH,
-                                        "//*[@id=\"corePriceDisplay_desktop_featur"
-                                        "e_div\"]/div[1]/span[3]/span[2]/span[2]")
-            data[name].append([price.text, datetime.today().strftime('%Y-%m-%d')])
+    #    if data["LOQ_R7_8845HS_4050"][0][0] == datetime.today().strftime('%Y-%m-%d'):      (Fix: store data in CSV file)
+    driver = webdriver.Chrome()
+    for name in links:
+        if name not in data:
+            data[name] = []
+        driver.get(links[name])
+        price = driver.find_element(By.XPATH,
+                                    "//*[@id=\"corePriceDisplay_desktop_featur"
+                                    "e_div\"]/div[1]/span[3]/span[2]/span[2]")
+        data[name].append([price.text, datetime.today().strftime('%Y-%m-%d')])
 
 
 def printData():
