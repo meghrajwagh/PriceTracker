@@ -1,0 +1,13 @@
+##[pylyzer] failed d:\python\pricetracker\main.py 1726676301 553
+.___v_desugar_1 = pyimport "selenium"
+.selenium = pyimport "selenium"
+.webdriver: Never
+.___v_desugar_2 = pyimport "by"
+.by = pyimport "by"
+.By: {by.By}
+.driver: Never
+.links: Dict!({Str: Str})
+.data: Dict!({Str: GenericList})
+.temp: List!(Never, 0)
+
+
