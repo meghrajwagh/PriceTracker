@@ -10,7 +10,7 @@ data: dict[str, list] = {"Name": [["Date", "price"]], "LOQ_R7_8845HS_4050": []}
 
 
 def checkPrice():
-    #    if data["LOQ_R7_8845HS_4050"][0][0] == datetime.today().strftime('%Y-%m-%d'):      (Fix: store data in CSV file)
+    # if data["LOQ_R7_8845HS_4050"][0][0] == datetime.today().strftime('%Y-%m-%d'):      (Fix: store data in CSV file)
     driver = webdriver.Chrome()
     for name in links:
         if name not in data:
