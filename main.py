@@ -29,10 +29,11 @@ def checkPrice():
         name = lis[0]
         link = lis[1]
         driver.get(link)
-        price = driver.find_element(By.XPATH,
+        priceStr = driver.find_element(By.XPATH,
                                     "//*[@id=\"corePriceDisplay_desktop_featur"
-                                    "e_div\"]/div[1]/span[3]/span[2]/span[2]")
-        data.append([name, price.text, datetime.today().strftime('%Y-%m-%d')])
+                                    "e_div\"]/div[1]/span[3]/span[2]/span[2]").text
+        price = int(priceStr.replace(',',''))
+        data.append([name, price, datetime.today().strftime('%Y-%m-%d')])
 
 
 def writeData():
