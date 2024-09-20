@@ -24,7 +24,7 @@ with open('data.csv', 'r') as dataFile:
     read = csv.reader(dataFile)
     for row in read:
         data.append(row)
-    lastUpdatedDate = data[-1][-1]
+    lastUpdatedDate = data[-1][2]
 
 
 def checkPrice():
@@ -40,11 +40,11 @@ def checkPrice():
                                             "//*[@id=\"corePriceDisplay_desktop_featur"
                                             "e_div\"]/div[1]/span[3]/span[2]/span[2]").text
                 price = int(priceStr.replace(',',''))
-                data.append([prdtName, price, today])
+                data.append([prdtName, price, today, site])
             else:
                 priceStr = driver.find_element(By.CLASS_NAME,"CxhGGd").text
                 price = int(priceStr.replace('₹','').replace(',',''))
-                data.append([prdtName, price, today])
+                data.append([prdtName, price, today, site])
     else:
         print("Data is Up-to-date!")
 
@@ -58,7 +58,7 @@ def writeData():
 
 
 def printData():
-    print("\n\nThis is printed data from csv file")
+    print("\n\nThis is printed data from csv file\n")
     with open('data.csv', 'r') as dataFile:
         read = csv.reader(dataFile)
         for row in read:
