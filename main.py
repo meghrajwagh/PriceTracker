@@ -28,25 +28,22 @@ with open('data.csv', 'r') as dataFile:
 
 
 def checkPrice():
-    if lastUpdatedDate != today:
-        driver = webdriver.Chrome()
-        for lis in links:
-            prdtName = lis[0]
-            link = lis[1]
-            site = lis[2]
-            driver.get(link)
-            if site == "Amazon":
-                priceStr = driver.find_element(By.XPATH,
-                                            "//*[@id=\"corePriceDisplay_desktop_featur"
-                                            "e_div\"]/div[1]/span[3]/span[2]/span[2]").text
-                price = int(priceStr.replace(',',''))
-                data.append([prdtName, price, today, site])
-            else:
-                priceStr = driver.find_element(By.CLASS_NAME,"CxhGGd").text
-                price = int(priceStr.replace('₹','').replace(',',''))
-                data.append([prdtName, price, today, site])
-    else:
-        print("Data is Up-to-date!")
+    driver = webdriver.Chrome()
+    for lis in links:
+        prdtName = lis[0]
+        link = lis[1]
+        site = lis[2]
+        driver.get(link)
+        if site == "Amazon":
+            priceStr = driver.find_element(By.XPATH,
+                                        "//*[@id=\"corePriceDisplay_desktop_featur"
+                                        "e_div\"]/div[1]/span[3]/span[2]/span[2]").text
+            price = int(priceStr.replace(',',''))
+            data.append([prdtName, price, today, site])
+        else:
+            priceStr = driver.find_element(By.CLASS_NAME,"CxhGGd").text
+            price = int(priceStr.replace('₹','').replace(',',''))
+            data.append([prdtName, price, today, site])
 
 
 def writeData():
@@ -54,6 +51,7 @@ def writeData():
             write = csv.writer(dataFile)
             for row in data:
                 write.writerow(row)
+
 
 
 
@@ -65,6 +63,46 @@ def printData():
             print(row)
     print("\n\n")
 
-checkPrice()
-writeData()
-printData()
+def forceWrite():
+    print("Data is Up-to-date!\n",
+          "Do you still want to force write?"
+          )
+    fWrite = input("y/n?").capitalize()
+    if fWrite == "Y":
+        writeData()
+        print("Force Updated Data Successfully")
+    elif fWrite ==  "N":
+        pass
+    else:
+        print("Invalid Input!")
+        forceWrite()
+
+def mainMenu():
+    print(" 1. Check Price\n",
+          "2. Show Previous data\n",
+          "3. Update Data\n",
+          "0. Exit\n"
+          )
+    opt = int(input("Enter Option: "))
+    if opt == 1:
+        checkPrice()
+        mainMenu()
+    elif opt == 2:
+        printData()
+        mainMenu()
+    elif opt == 3:
+        if lastUpdatedDate != today:
+            writeData()
+            print("Data Updated Successfully")
+            mainMenu()
+        else:
+            forceWrite()
+            mainMenu()
+    elif opt == 0:
+        print("Exiting Programme")
+    else:
+        print("Invalid Input\nTry again.\n")
+        mainMenu()
+
+
+mainMenu()
