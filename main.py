@@ -34,17 +34,19 @@ def checkPrice():
         link = lis[1]
         site = lis[2]
         driver.get(link)
-        if site == "Amazon":
-            priceStr = driver.find_element(By.XPATH,
-                                        "//*[@id=\"corePriceDisplay_desktop_featur"
-                                        "e_div\"]/div[1]/span[3]/span[2]/span[2]").text
-            price = int(priceStr.replace(',',''))
-            data.append([prdtName, price, today, site])
-        else:
-            priceStr = driver.find_element(By.CLASS_NAME,"CxhGGd").text
-            price = int(priceStr.replace('₹','').replace(',',''))
-            data.append([prdtName, price, today, site])
-
+        try:
+            if site == "Amazon":
+                priceStr = driver.find_element(By.XPATH,
+                                            "//*[@id=\"corePriceDisplay_desktop_featur"
+                                            "e_div\"]/div[1]/span[3]/span[2]/span[2]").text
+                price = int(priceStr.replace(',',''))
+                data.append([prdtName, price, today, site])
+            else:
+                priceStr = driver.find_element(By.CLASS_NAME,"CxhGGd").text
+                price = int(priceStr.replace('₹','').replace(',',''))
+                data.append([prdtName, price, today, site])
+        except:
+            continue
 
 def writeData():
         with open('data.csv', 'w', newline='') as dataFile:
